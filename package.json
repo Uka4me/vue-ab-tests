@@ -1,0 +1,31 @@
+{
+  "name": "vue-ab-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "minimize": "npx minimize-js ./dist -d",
+    "test": "vitest run  --coverage"
+  },
+  "files": [
+    "dist"
+  ],
+  "author": "Uka4me",
+  "license": "ISC",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^24.1.0",
+    "minimize-js": "^1.4.0",
+    "typescript": "^5.4.5",
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^1.6.0",
+    "vue": "^3.4.27",
+    "vue-tsc": "^2.0.19"
+  }
+}

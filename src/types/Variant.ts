@@ -1,0 +1,1 @@
+export type Variant<T> = { name: string, chance: number, data: T };
