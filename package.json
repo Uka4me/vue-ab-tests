@@ -1,6 +1,6 @@
 {
   "name": "vue-ab-tests",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Package for A/B testing of the site and components",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
