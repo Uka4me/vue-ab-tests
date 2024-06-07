@@ -1,5 +1,5 @@
 <template>
-  <ABTests @selected="selected">
+  <ABTests name="Test" @selected="selected" @reselected="selected">
     <ABTest name="A" :chance="2">
       Test A
     </ABTest>

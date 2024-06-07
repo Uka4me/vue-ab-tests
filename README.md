@@ -35,7 +35,7 @@ The `ABTests` component is a group of tests. The tests themselves must be locate
 
 ```html
 <template>
-  <ABTests>
+  <ABTests name="ab-tests" :storage="StorageType.Cookie">
     <ABTest name="test-1" :chance="2">
       <h1>Test 1</h1>
       <p>Test 1 content</p> 
@@ -48,7 +48,7 @@ The `ABTests` component is a group of tests. The tests themselves must be locate
 </template>
 
 <script setup lang="ts"> 
-import { ABTests, ABTest } from 'vue-ab-tests';
+import { ABTests, ABTest, StorageType } from 'vue-ab-tests';
 </script>
 ```
 
@@ -60,7 +60,9 @@ In this example, two tests are created, `test-1` has priority `2`, and `test-2` 
 
 #### Props
 
-None
+* `name: string` - The name of the group of tests.
+* `storage?: StorageType` - *(default: `StorageType.LocalStorage`)* The storage type.
+* `expire?: number` - *(default: 30)* The expiration time in days.
 
 #### Slots
 
@@ -69,6 +71,7 @@ None
 #### Events
 
 * `selected: (name: string) => void` - Called when a variant is selected.
+* `reselected: (name: string) => void` - Called when a variant is reselected. When this event was called, the selection of the component was based on the user's saved data after the very first impression.
 
 ```html
 <template>
@@ -96,7 +99,7 @@ None
 #### Props
 
 * `name: string` - The name of the variant.
-* `chance: number` - The chance of the variant being selected.
+* `chance?: number` - *(default: 1)* The chance of the variant being selected.
 
 #### Slots
 
@@ -113,10 +116,10 @@ Returns a random variant from the given array of variants based on their chance.
  * `@return {Variant<T> | null}` - A random variant from the given array or null if the array is empty.
 
 ```ts
-import { useVariant } from './useVariant';
-import type { Variant } from "types/Variant";
+import { useVariant } from 'vue-ab-tests';
+import type { Variant } from 'vue-ab-tests';
 
-const variants: Variant[] = [
+const variants: Variant<string>[] = [
   {
     name: "test-1",
     chance: 2,

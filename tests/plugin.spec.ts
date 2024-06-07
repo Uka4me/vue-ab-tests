@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { ABTestPlugin } from '../src';
+import { ABTestPlugin, useVariant, Variant } from '../src';
 
 const originalMathRandom = Math.random;
 
@@ -9,7 +9,7 @@ test('Test rendering', () => {
 
   const Component = {
     template: `
-      <ab-tests>
+      <ab-tests name="Test rendering">
         <ab-test name="A" chance="2">
           Test A
         </ab-test>
@@ -34,7 +34,7 @@ test('Only ABTest component rendering', () => {
 
   const Component = {
     template: `
-      <ab-tests>
+      <ab-tests name="Only ABTest component rendering">
         <ab-test name="A" chance="2">
           Test A
         </ab-test>
@@ -61,7 +61,7 @@ test('Empty ABTests', () => {
 
   const Component = {
     template: `
-      <ab-tests>
+      <ab-tests name="Empty ABTests">
       </ab-tests>
     `,
   }
@@ -80,7 +80,7 @@ test('Missing ABTest component', () => {
 
   const Component = {
     template: `
-      <ab-tests>
+      <ab-tests name="Missing ABTest component">
         <div name="C" chance="3">Not Rendered</div>
         <p name="D" chance="4">Not Rendered</p>
       </ab-tests>
@@ -102,7 +102,7 @@ test('Calling the inverse function after selection', () => {
   let variant: string | null = null;
   const Component = {
     template: `
-      <ab-tests @selected="selected">
+      <ab-tests name="Calling the inverse function after selection" @selected="selected">
         <ab-test name="A" chance="2">
           Test A
         </ab-test>
@@ -137,31 +137,19 @@ test('Checking module spawn distribution', () => {
     'Test C': 0
   }
 
-  const Component = {
-    template: `
-      <ab-tests>
-        <ab-test name="A" chance="2">
-          Test A
-        </ab-test>
-        <ab-test name="B" chance="1">
-          Test B
-        </ab-test>
-        <ab-test name="C" chance="3">
-          Test C
-        </ab-test>
-      </ab-tests>
-    `,
-  }
+  const variants = [
+    { name: 'A', chance: 2, data: 'Test A' },
+    { name: 'B', chance: 1, data: 'Test B' },
+    { name: 'C', chance: 3, data: 'Test C' }
+  ];
 
-  let wrapper: any = null;
+  let variant: Variant<string> | null = null;
   for (let i=0; i<repeat; i++) {
-    wrapper = mount(Component, {
-      global: {
-        plugins: [ ABTestPlugin ]
-      }
-    });
+    variant = useVariant<string>(variants);
 
-    statistic[wrapper.html().trim()]++;
+    if (variant !== null) {
+      statistic[variant.data]++;
+    }
   }
 
   for (let key in statistic) {
@@ -171,4 +159,76 @@ test('Checking module spawn distribution', () => {
   expect(statistic['Test A']).toBeLessThanOrEqual(34 + deviation);
   expect(statistic['Test B']).toBeLessThanOrEqual(17 + deviation);
   expect(statistic['Test C']).toBeLessThanOrEqual(49 + deviation);
+})
+
+test('Test storage: localstorage', () => {
+  Math.random = originalMathRandom;
+  const repeat = 20;
+
+  const Component = {
+    template: `
+      <ab-tests name="Test storage: localstorage" storage="localstorage" :expire="1">
+        <ab-test name="A" chance="2">
+          Test A
+        </ab-test>
+        <ab-test name="B" chance="1">
+          Test B
+        </ab-test>
+      </ab-tests>
+    `,
+  }
+
+  let wrapper = mount(Component, {
+    global: {
+      plugins: [ ABTestPlugin ]
+    }
+  })
+
+  const first = wrapper.text();
+
+  for (let i=0; i<repeat; i++) {
+    wrapper = mount(Component, {
+      global: {
+        plugins: [ ABTestPlugin ]
+      }
+    })
+
+    expect(wrapper.text()).toBe(first)
+  }
+})
+
+test('Test storage: cookie', () => {
+  Math.random = originalMathRandom;
+  const repeat = 20;
+
+  const Component = {
+    template: `
+      <ab-tests name="Test storage: cookie" storage="cookie" :expire="1">
+        <ab-test name="A" chance="2">
+          Test A
+        </ab-test>
+        <ab-test name="B" chance="1">
+          Test B
+        </ab-test>
+      </ab-tests>
+    `,
+  }
+
+  let wrapper = mount(Component, {
+    global: {
+      plugins: [ ABTestPlugin ]
+    }
+  })
+
+  const first = wrapper.text();
+
+  for (let i=0; i<repeat; i++) {
+    wrapper = mount(Component, {
+      global: {
+        plugins: [ ABTestPlugin ]
+      }
+    })
+
+    expect(wrapper.text()).toBe(first)
+  }
 })

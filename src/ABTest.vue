@@ -1,8 +1,16 @@
+<script lang="ts">
+  export default {
+    name: 'ABTest'
+  }
+</script>
+
 <script setup lang="ts">
-  const props = defineProps<{
+  const props = withDefaults(defineProps<{
     name: string,
-    chance: number
-  }>();
+    chance?: number
+  }>(), {
+    chance: 1
+  });
   const slots = defineSlots<{
     default(): any
   }>();
