@@ -1,7 +1,7 @@
 {
   "name": "vue-ab-tests",
   "version": "0.0.0",
-  "description": "",
+  "description": "Package for A/B testing of the site and components",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,6 +14,13 @@
   },
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "vue",
+    "ab",
+    "a/b",
+    "ab test",
+    "testing"
   ],
   "author": "Uka4me",
   "license": "ISC",
