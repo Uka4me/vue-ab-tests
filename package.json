@@ -1,6 +1,6 @@
 {
   "name": "vue-ab-tests",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -9,7 +9,8 @@
   "scripts": {
     "build": "vite build",
     "minimize": "npx minimize-js ./dist -d",
-    "test": "vitest run  --coverage"
+    "test": "vitest run  --coverage",
+    "prepublishOnly": "npm run build && npm run minimize"
   },
   "files": [
     "dist"
