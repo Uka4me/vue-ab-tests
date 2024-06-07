@@ -56,13 +56,20 @@ In this example, two tests are created, `test-1` has priority `2`, and `test-2` 
 
 ## Docs
 
+### StorageType
+
+The storage type to save the selected option for the first time.
+
+* `StorageType.LocalStorage` - Save the selected option in the browser's local storage.
+* `StorageType.Cookie` - Save the selected option in the browser's cookie.
+
 ### ABTests
 
 #### Props
 
-* `name: string` - The name of the group of tests.
-* `storage?: StorageType` - *(default: `StorageType.LocalStorage`)* The storage type.
-* `expire?: number` - *(default: 30)* The expiration time in days.
+* `name: string` - The name of the group of tests. The name will be used to save the selected option in the repository.
+* `storage?: StorageType` - *(default: `StorageType.LocalStorage`)* The storage type to save the selected option for the first time.
+* `expire?: number` - *(default: 30)* Time in days for which the first selected option will be saved.
 
 #### Slots
 
